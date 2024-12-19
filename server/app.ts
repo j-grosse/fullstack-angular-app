@@ -39,7 +39,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 // Catch-all route for Angular
 app.get('/*', (req, res) => {
-  res.sendFile(pathJoin(__dirname, '../public/index.html'));
+  res.sendFile(pathJoin(__dirname, '../public/browser/index.html'));
 });
 
 export { app };
