@@ -19,20 +19,27 @@ if (process.env.NODE_ENV !== 'test') {
 
 setRoutes(app);
 
-const main = async (): Promise<void> => {
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+// Connect to MongoDB after server starts
+const initMongo = async (): Promise<void> => {
   try {
     await connectToMongo();
-    app.get('/*', (req, res) => {
-      res.sendFile(pathJoin(__dirname, '../public/index.html'));
-    });
-    app.listen(PORT, () => console.log(`Angular Full Stack listening on port ${PORT}`));
+    console.log('Connected to MongoDB');
   } catch (err) {
-    console.error(err);
+    console.error('MongoDB connection error:', err);
   }
 };
 
 if (process.env.NODE_ENV !== 'test') {
-  main();
+  initMongo();
 }
+
+// Catch-all route for Angular
+app.get('/*', (req, res) => {
+  res.sendFile(pathJoin(__dirname, '../public/index.html'));
+});
 
 export { app };
